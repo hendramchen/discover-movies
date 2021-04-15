@@ -4,18 +4,20 @@ import Auxiliary from "../../hoc/Auxiliary/Auxiliary";
 import axios from "axios";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import * as actions from "../../store/actions";
-import { IMovie } from "../../types/type.movie";
+import { IMovie, IGenre } from "../../types/type.movie";
 import MovieList from "../../components/MovieList/MovieList";
 import Filter from "../../components/Filter/Filter";
 
 interface IProps {
   movieProps: IMovie[];
-  onAddFavorit: (movie: IMovie) => void;
-  onRemoveFavorit: (id: number) => void;
   sortType: string;
   sortBy: string;
   releaseStart: string;
   releaseEnd: string;
+  genres: IGenre[];
+  // onAddFavorit: (movie: IMovie) => void;
+  // onRemoveFavorit: (id: number) => void;
+  onSetGenres: (genres: IGenre[]) => void;
 }
 
 interface IState {
@@ -49,6 +51,9 @@ class Movies extends Component<IProps, IState> {
 
   componentDidMount() {
     this.getMovies();
+    if (this.props.genres.length === 0) {
+      this.getGenre();
+    }
   }
 
   getMovies = () => {
@@ -75,14 +80,19 @@ class Movies extends Component<IProps, IState> {
       });
   };
 
-  onAddFavorit = (movie: IMovie) => {
-    this.props.onAddFavorit(movie);
-  };
-
-  onShowStore = () => {
-    console.log("movieProps");
-    console.log(this.props.movieProps);
-    // this.setState({ sortBy: this.props.sortBy });
+  getGenre = () => {
+    //https://api.themoviedb.org/3/genre/movie/list?api_key=<<api_key>>&language=en-US
+    axios
+      .get(`${BASE_URL}genre/movie/list?api_key=${API_KEY}&language=en-US`)
+      .then((response) => {
+        console.log("Genre");
+        console.log(response.data);
+        const genres: IGenre[] = response.data.genres;
+        this.props.onSetGenres(genres);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   render() {
@@ -122,13 +132,15 @@ const mapStateToProps = (state: any) => {
     sortBy: state.fil.sortBy,
     releaseStart: state.fil.releaseStart,
     releaseEnd: state.fil.releaseEnd,
+    genres: state.gen.genres,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    onAddFavorit: (movie: IMovie) => dispatch(actions.addFavorit(movie)),
-    onRemoveFavorit: (id: number) => dispatch(actions.removeFavorit(id)),
+    // onAddFavorit: (movie: IMovie) => dispatch(actions.addFavorit(movie)),
+    // onRemoveFavorit: (id: number) => dispatch(actions.removeFavorit(id)),
+    onSetGenres: (genres: IGenre[]) => dispatch(actions.setGenre(genres)),
   };
 };
 

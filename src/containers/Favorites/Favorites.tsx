@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { IMovie } from "../../types/type.movie";
+import { IMovie, IGenre } from "../../types/type.movie";
 import MovieList from "../../components/MovieList/MovieList";
 
 interface IProps {
@@ -17,7 +17,7 @@ class Favorites extends Component<IProps> {
     }
     return (
       <div>
-        <h1 className="text-3xl text-gray-900 pl-8 pt-5 pb-5">Favorit page</h1>
+        <h1 className="text-3xl text-gray-900 pl-8 pt-5 pb-5">My Favorit</h1>
         {favList}
       </div>
     );

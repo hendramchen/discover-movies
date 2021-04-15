@@ -8,10 +8,12 @@ import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import reducerMovies from "./store/reducers/reducerMovies";
 import reducerFilter from "./store/reducers/reducerFilter";
+import reducerGenre from "./store/reducers/reducerGenre";
 
 const rootReducer = combineReducers({
   mov: reducerMovies,
   fil: reducerFilter,
+  gen: reducerGenre,
 });
 
 const store = createStore(rootReducer);

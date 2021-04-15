@@ -12,6 +12,14 @@ interface IProps {
 class Layout extends Component<IProps, {}> {
   render() {
     let { movieProps = [] } = this.props;
+    let countFav = null;
+    if (movieProps.length > 0) {
+      countFav = (
+        <span className="bg-red-400 text-white rounded-full pt-1 pb-1 pl-3 pr-3">
+          {movieProps.length}
+        </span>
+      );
+    }
     return (
       <Auxiliary>
         <div className="border-gray-200 border-b">
@@ -19,9 +27,7 @@ class Layout extends Component<IProps, {}> {
             <NavItem href="/movies" isActive={true} exact>
               Home
             </NavItem>
-            <NavItem href="/favorites">
-              My Favorit ({movieProps.length})
-            </NavItem>
+            <NavItem href="/favorites">My Favorit {countFav}</NavItem>
           </Nav>
         </div>
 
