@@ -4,16 +4,16 @@ import { IMovie, IGenre } from "../../types/type.movie";
 import MovieList from "../../components/MovieList/MovieList";
 
 interface IProps {
-  movieProps?: IMovie[];
+  favorites?: IMovie[];
   children: React.ReactNode;
 }
 
 class Favorites extends Component<IProps> {
   render() {
-    const { movieProps = [] } = this.props;
+    const { favorites = [] } = this.props;
     let favList = null;
-    if (movieProps.length > 0) {
-      favList = <MovieList movieList={movieProps} />;
+    if (favorites.length > 0) {
+      favList = <MovieList movieList={favorites} />;
     }
     return (
       <div>
@@ -26,7 +26,7 @@ class Favorites extends Component<IProps> {
 
 const mapStateToProps = (state: any) => {
   return {
-    movieProps: state.mov.movies,
+    favorites: state.fav.favorites,
   };
 };
 

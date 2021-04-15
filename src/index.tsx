@@ -6,14 +6,12 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
-import reducerMovies from "./store/reducers/reducerMovies";
-import reducerFilter from "./store/reducers/reducerFilter";
 import reducerGenre from "./store/reducers/reducerGenre";
+import reducerFavorites from "./store/reducers/reducerFavorites";
 
 const rootReducer = combineReducers({
-  mov: reducerMovies,
-  fil: reducerFilter,
   gen: reducerGenre,
+  fav: reducerFavorites,
 });
 
 const store = createStore(rootReducer);

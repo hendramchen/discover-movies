@@ -10,8 +10,8 @@ const MovieList = ({ movieList }: IProps) => {
   // let between = movieList.length >= 6 ? "justify-between" : "";
   return (
     <div className={`flex flex-wrap ml-4 mr-4 bg-gray-200`}>
-      {movieList.map((item, index) => (
-        <MovieItem key={index} movie={item} />
+      {movieList.map((item) => (
+        <MovieItem key={item.id} movie={item} />
       ))}
     </div>
   );

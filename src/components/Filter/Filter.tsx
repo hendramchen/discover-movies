@@ -1,6 +1,4 @@
-import React, { Component, useState } from "react";
-import { connect } from "react-redux";
-import * as actions from "../../store/actions";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -19,91 +17,112 @@ export const getISODateFormat = (obj: Date) => {
 };
 
 interface IProps {
+  onChangePage: (val: number) => void;
   onChangeSortType: (val: string) => void;
   onChangeSortBy: (val: string) => void;
-  onChangeReleaseStart: (val: string) => void;
-  onChangeReleaseEnd: (val: string) => void;
+  onChangeRelease: (start: string, end: string) => void;
 }
 
-class Filter extends Component<IProps> {
-  state = {
-    startDate: new Date(),
-    endDate: new Date(),
-  };
+const Filter = ({
+  onChangePage,
+  onChangeSortType,
+  onChangeSortBy,
+  onChangeRelease,
+}: IProps) => {
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [page, setPage] = useState(1);
 
-  onChange = (dates: any) => {
+  const onChange = (dates: any) => {
     const [start, end] = dates;
-    this.setState({ startDate: start });
-    this.setState({ endDate: end });
-    // this.props.onChangeReleaseStart(getISODateFormat(start));
+    setStartDate(start);
+    setEndDate(end);
+    const stDate = getISODateFormat(start);
+    const enDate = getISODateFormat(end);
+    if (stDate && enDate) {
+      onChangeRelease(stDate, enDate);
+    }
   };
 
-  render() {
-    const {
-      onChangeSortType,
-      onChangeSortBy,
-      onChangeReleaseStart,
-      onChangeReleaseEnd,
-    } = this.props;
-    return (
-      <div className="flex pt-5 pb-5 pl-7 pr-7">
-        <div className="flex flex-1">
-          <div className="border m-1" onClick={() => onChangeSortType("asc")}>
-            asc
-          </div>
-          <div className="border m-1" onClick={() => onChangeSortType("desc")}>
-            dsc
-          </div>
-          <div
-            className="border m-1"
-            onClick={() => onChangeSortBy("popularity")}
-          >
-            popularity
-          </div>
-          <div
-            className="border m-1"
-            onClick={() => onChangeSortBy("release_date")}
-          >
-            release
-          </div>
-          <div
-            className="border m-1"
-            onClick={() => onChangeSortBy("vote_count")}
-          >
-            vote count
-          </div>
-          <div className="border m-1">
-            <DatePicker
-              className="border border-gray-400"
-              selected={this.state.startDate}
-              value={`${getISODateFormat(
-                this.state.startDate
-              )} to ${getISODateFormat(this.state.endDate)}`}
-              onChange={this.onChange}
-              startDate={this.state.startDate}
-              endDate={this.state.endDate}
-              selectsRange
-            />
-          </div>
-        </div>
-        <div className="flex justify-end flex-1 text-right">
-          <div className="border m-1">prev</div>
-          <div className="border m-1">next</div>
+  const onNextPage = () => {
+    let newPage = page;
+    newPage++;
+    onChangePage(newPage);
+    setPage(newPage);
+  };
+
+  const onPrevPage = () => {
+    let newPage = page;
+    if (newPage > 1) {
+      newPage--;
+      onChangePage(newPage);
+      setPage(newPage);
+    }
+  };
+
+  return (
+    <div className="flex pt-5 pb-5 pl-7 pr-7">
+      <div className="flex flex-1">
+        <button
+          className="border m-1 border-gray-500 rounded pt-1 pb-1 pl-2 pr-2"
+          onClick={() => onChangeSortType("asc")}
+        >
+          asc
+        </button>
+        <button
+          className="border m-1 border-gray-500 rounded pt-1 pb-1 pl-2 pr-2"
+          onClick={() => onChangeSortType("desc")}
+        >
+          dsc
+        </button>
+        <button
+          className="border m-1 border-gray-500 rounded pt-1 pb-1 pl-2 pr-2"
+          onClick={() => onChangeSortBy("popularity")}
+        >
+          popularity
+        </button>
+        <button
+          className="border m-1 border-gray-500 rounded pt-1 pb-1 pl-2 pr-2"
+          onClick={() => onChangeSortBy("release_date")}
+        >
+          release
+        </button>
+        <button
+          className="border m-1 border-gray-500 rounded pt-1 pb-1 pl-2 pr-2"
+          onClick={() => onChangeSortBy("vote_count")}
+        >
+          vote count
+        </button>
+        <div className="border m-1 border-gray-500 rounded pt-1 pb-1 pl-2 pr-2">
+          <DatePicker
+            className="border border-gray-400 pt-1 pb-1 pl-2 pr-2 rounded text-sm w-48"
+            selected={startDate}
+            value={`${getISODateFormat(startDate)} to ${getISODateFormat(
+              endDate
+            )}`}
+            onChange={onChange}
+            startDate={startDate}
+            endDate={endDate}
+            selectsRange
+          />
         </div>
       </div>
-    );
-  }
-}
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    onChangeSortType: (val: string) => dispatch(actions.changeSortType(val)),
-    onChangeSortBy: (val: string) => dispatch(actions.changeSortBy(val)),
-    onChangeReleaseStart: (val: string) =>
-      dispatch(actions.changeReleaseStart(val)),
-    onChangeReleaseEnd: (val: string) =>
-      dispatch(actions.changeReleaseEnd(val)),
-  };
+      <div className="flex justify-end flex-1 text-right">
+        <button
+          className="border m-1 border-gray-500 rounded pt-1 pb-1 pl-2 pr-2"
+          onClick={onPrevPage}
+        >
+          prev
+        </button>
+        <button
+          className="border m-1 border-gray-500 rounded pt-1 pb-1 pl-2 pr-2"
+          onClick={onNextPage}
+        >
+          next
+        </button>
+      </div>
+    </div>
+  );
 };
 
-export default connect(null, mapDispatchToProps)(Filter);
+export default Filter;

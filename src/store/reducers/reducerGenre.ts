@@ -17,8 +17,6 @@ const initialState: IReducerState = {
 const reducerGenre = (state: IReducerState = initialState, action: IAction) => {
   switch (action.type) {
     case actionTypes.SET_GENRE:
-      console.log("dispatch");
-      console.log(action);
       return {
         ...state,
         genres: action.genres,
