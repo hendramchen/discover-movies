@@ -25,7 +25,7 @@ class Layout extends Component<IProps, {}> {
           </Nav>
         </div>
 
-        <main>{this.props.children}</main>
+        <main className="bg-gray-200">{this.props.children}</main>
       </Auxiliary>
     );
   }

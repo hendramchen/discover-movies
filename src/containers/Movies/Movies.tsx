@@ -6,6 +6,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import * as actions from "../../store/actions";
 import { IMovie } from "../../types/type.movie";
 import MovieList from "../../components/MovieList/MovieList";
+import Filter from "../../components/Filter/Filter";
 
 interface IProps {
   movieProps: IMovie[];
@@ -97,10 +98,10 @@ class Movies extends Component<IProps, IState> {
 
     if (this.state.payload.results.length > 0) {
       movieList = (
-        <MovieList
-          movieList={this.state.payload.results}
-          page={this.state.payload.page}
-        />
+        <div>
+          <Filter />
+          <MovieList movieList={this.state.payload.results} />
+        </div>
       );
     } else {
       movieList = <Spinner />;
@@ -109,7 +110,6 @@ class Movies extends Component<IProps, IState> {
     return (
       <Auxiliary>
         <div>{movieList}</div>
-        <button onClick={this.onShowStore}>show store</button>
       </Auxiliary>
     );
   }

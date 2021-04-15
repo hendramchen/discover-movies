@@ -46,7 +46,7 @@ class Filter extends Component<IProps> {
       onChangeReleaseEnd,
     } = this.props;
     return (
-      <div className="flex">
+      <div className="flex pt-5 pb-5 pl-7 pr-7">
         <div className="flex flex-1">
           <div className="border m-1" onClick={() => onChangeSortType("asc")}>
             asc
@@ -86,7 +86,7 @@ class Filter extends Component<IProps> {
             />
           </div>
         </div>
-        <div className="flex items-end flex-1 text-right">
+        <div className="flex justify-end flex-1 text-right">
           <div className="border m-1">prev</div>
           <div className="border m-1">next</div>
         </div>

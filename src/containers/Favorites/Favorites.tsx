@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { IMovie } from "../../types/type.movie";
+import MovieList from "../../components/MovieList/MovieList";
 
 interface IProps {
   movieProps?: IMovie[];
@@ -12,13 +13,11 @@ class Favorites extends Component<IProps> {
     const { movieProps = [] } = this.props;
     let favList = null;
     if (movieProps.length > 0) {
-      favList = movieProps.map((item) => {
-        return <div>{item.title}</div>;
-      });
+      favList = <MovieList movieList={movieProps} />;
     }
     return (
       <div>
-        <div>Favorit page</div>
+        <h1 className="text-3xl text-gray-900 pl-8 pt-5 pb-5">Favorit page</h1>
         {favList}
       </div>
     );
