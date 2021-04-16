@@ -13,3 +13,14 @@ export const getGenres = (genreIds: number[], genres: IGenre[]) => {
   }
   return list;
 };
+
+export const timeConvert = (num: number) => {
+  let hours = Math.floor(num / 60);
+  let minutes = num % 60;
+  return hours + " Hour " + minutes + " Minutes"; // 1 Hour 47 Minute
+};
+
+export const formatCurrency = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});

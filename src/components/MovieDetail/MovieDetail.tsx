@@ -3,6 +3,7 @@ import { IMovieDetail, IMovie } from "../../types/type.movie";
 import LoveButton from "../UI/Button/LoveButton";
 import * as actions from "../../store/actions";
 import { connect } from "react-redux";
+import { timeConvert, formatCurrency } from "../../utils/util.function";
 
 interface IProps {
   detail: IMovieDetail;
@@ -59,7 +60,7 @@ class MovieDetail extends Component<IProps> {
               />
             </div>
 
-            <div className="text-white ml-3">
+            <div className="text-white ml-6 mt-8 space-y-3">
               <div>
                 <span className="font-bold">Popularity: </span>
                 {detail.popularity}
@@ -89,10 +90,12 @@ class MovieDetail extends Component<IProps> {
                 ))}
               </div>
               <div>
-                <span className="font-bold">Runtime: </span> {detail.runtime}
+                <span className="font-bold">Runtime: </span>{" "}
+                {timeConvert(detail.runtime)}
               </div>
               <div>
-                <span className="font-bold">Revenue: </span> {detail.revenue}
+                <span className="font-bold">Revenue: </span>{" "}
+                {formatCurrency.format(detail.revenue)}
               </div>
               <div>
                 <span className="font-bold">Vote Average: </span>{" "}
