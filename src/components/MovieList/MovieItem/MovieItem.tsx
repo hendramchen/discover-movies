@@ -4,12 +4,13 @@ import * as actions from "../../../store/actions";
 import { getGenres } from "../../../utils/util.function";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import LoveButton from "../../UI/Button/LoveButton";
 
 interface IProps {
   movie: IMovie;
   genres: IGenre[];
-  onAddFavorit: (movie: IMovie) => void;
-  onRemoveFavorit: (id: number) => void;
+  onAddFavorite: (movie: IMovie) => void;
+  onRemoveFavorite: (id: number) => void;
 }
 class MovieItem extends Component<IProps> {
   render() {
@@ -20,11 +21,13 @@ class MovieItem extends Component<IProps> {
 
     return (
       <div className="flex flex-col relative border m-2 border-gray-200 bg-white rounded-xl w-72 hover:shadow-xl hover:border-blue-500">
-        <img
-          src={`https://image.tmdb.org/t/p/w500/${this.props.movie.poster_path}`}
-          alt=""
-          className="w-72 object-cover rounded-tl-xl rounded-tr-xl cursor-pointer"
-        />
+        <Link to={`/movie/${this.props.movie.id}`}>
+          <img
+            src={`https://image.tmdb.org/t/p/w500/${this.props.movie.poster_path}`}
+            alt=""
+            className="w-72 object-cover rounded-tl-xl rounded-tr-xl cursor-pointer"
+          />
+        </Link>
 
         <div className="relative">
           <div className="h-24 m-4">
@@ -55,20 +58,9 @@ class MovieItem extends Component<IProps> {
               Detail
             </Link>
 
-            <button
-              onClick={() => this.props.onAddFavorit(this.props.movie)}
-              className="flex-none flex items-center justify-center w-9 h-9 rounded-md text-gray-400 border border-gray-300"
-              type="button"
-              aria-label="like"
-            >
-              <svg width="20" height="20" fill="currentColor">
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                />
-              </svg>
-            </button>
+            <LoveButton
+              onAddFavorite={() => this.props.onAddFavorite(this.props.movie)}
+            />
           </div>
         </div>
       </div>
@@ -84,8 +76,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    onAddFavorit: (movie: IMovie) => dispatch(actions.addFavorite(movie)),
-    onRemoveFavorit: (id: number) => dispatch(actions.removeFavorite(id)),
+    onAddFavorite: (movie: IMovie) => dispatch(actions.addFavorite(movie)),
+    onRemoveFavorite: (id: number) => dispatch(actions.removeFavorite(id)),
   };
 };
 
