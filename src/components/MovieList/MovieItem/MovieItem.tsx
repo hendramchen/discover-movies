@@ -9,6 +9,7 @@ import LoveButton from "../../UI/Button/LoveButton";
 interface IProps {
   movie: IMovie;
   genres: IGenre[];
+  isFav: boolean;
   onAddFavorite: (movie: IMovie) => void;
   onRemoveFavorite: (id: number) => void;
 }
@@ -59,7 +60,11 @@ class MovieItem extends Component<IProps> {
             </Link>
 
             <LoveButton
+              isFavorite={this.props.isFav}
               onAddFavorite={() => this.props.onAddFavorite(this.props.movie)}
+              onRemoveFavorite={() =>
+                this.props.onRemoveFavorite(this.props.movie.id)
+              }
             />
           </div>
         </div>

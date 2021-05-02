@@ -7,13 +7,14 @@ import { timeConvert, formatCurrency } from "../../utils/util.function";
 
 interface IProps {
   detail: IMovieDetail;
+  favorites: IMovie[];
   onAddFavorite: (movie: IMovie) => void;
   onRemoveFavorite: (id: number) => void;
 }
 
 class MovieDetail extends Component<IProps> {
   render() {
-    const { detail } = this.props;
+    const { detail, favorites } = this.props;
     const genre_ids = detail.genres.map((item) => item.id);
     const movie: IMovie = {
       adult: detail.adult,
@@ -32,6 +33,12 @@ class MovieDetail extends Component<IProps> {
       vote_count: detail.vote_count,
     };
 
+    let isFav = false;
+    if (favorites.length > 0) {
+      const favList = favorites.map((item) => item.id);
+      isFav = favList.includes(detail.id);
+    }
+
     return (
       <div className="relative">
         <div className="">
@@ -39,6 +46,7 @@ class MovieDetail extends Component<IProps> {
             <img
               className="image w-full"
               src={`https://image.tmdb.org/t/p/original/${detail.backdrop_path}`}
+              alt="backdrop"
             />
           ) : null}
         </div>
@@ -53,10 +61,13 @@ class MovieDetail extends Component<IProps> {
               <img
                 className="image w-72 rounded-xl"
                 src={`https://image.tmdb.org/t/p/original/${detail.poster_path}`}
+                alt="poster"
               />
               <LoveButton
                 onAddFavorite={() => this.props.onAddFavorite(movie)}
-                style="absolute bottom-2 mb-1 ml-2"
+                onRemoveFavorite={() => this.props.onRemoveFavorite(detail.id)}
+                additionalStyle={"absolute bottom-2 mb-1 ml-2"}
+                isFavorite={isFav}
               />
             </div>
 
@@ -119,6 +130,12 @@ class MovieDetail extends Component<IProps> {
   }
 }
 
+const mapStateToProps = (state: any) => {
+  return {
+    favorites: state.fav.favorites,
+  };
+};
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     onAddFavorite: (movie: IMovie) => dispatch(actions.addFavorite(movie)),
@@ -126,4 +143,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(MovieDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetail);

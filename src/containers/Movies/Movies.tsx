@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Auxiliary from "../../hoc/Auxiliary/Auxiliary";
 import axios from "axios";
-import Spinner from "../../components/UI/Spinner/Spinner";
+// import Spinner from "../../components/UI/Spinner/Spinner";
 import * as actions from "../../store/actions";
 import { IMovie, IGenre } from "../../types/type.movie";
 import MovieList from "../../components/MovieList/MovieList";
@@ -11,6 +11,7 @@ import Filter from "../../components/Filter/Filter";
 interface IProps {
   genres: IGenre[];
   onSetGenres: (genres: IGenre[]) => void;
+  favorites?: IMovie[];
 }
 
 interface IState {
@@ -109,7 +110,7 @@ class Movies extends Component<IProps, IState> {
 
   render() {
     let movieList = null;
-
+    const favList = this.props.favorites ? this.props.favorites : [];
     if (this.state.movies.length > 0) {
       movieList = (
         <div>
@@ -119,7 +120,7 @@ class Movies extends Component<IProps, IState> {
             onChangeSortType={this.onChangeSortType}
             onChangeRelease={this.onChangeReleaseDate}
           />
-          <MovieList movieList={this.state.movies} />
+          <MovieList movieList={this.state.movies} favList={favList} />
         </div>
       );
     }
@@ -135,6 +136,7 @@ class Movies extends Component<IProps, IState> {
 const mapStateToProps = (state: any) => {
   return {
     genres: state.gen.genres,
+    favorites: state.fav.favorites,
   };
 };
 

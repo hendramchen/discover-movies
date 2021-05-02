@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { IMovie, IGenre } from "../../types/type.movie";
+import { IMovie } from "../../types/type.movie";
 import MovieList from "../../components/MovieList/MovieList";
 
 interface IProps {
@@ -13,7 +13,7 @@ class Favorites extends Component<IProps> {
     const { favorites = [] } = this.props;
     let favList = null;
     if (favorites.length > 0) {
-      favList = <MovieList movieList={favorites} />;
+      favList = <MovieList movieList={favorites} favList={favorites} />;
     }
     return (
       <div>
